@@ -25,14 +25,16 @@
 //todo 7) Додай до проекту бібліотеку lodash.throttle і зроби так, щоб час відтворення оновлювався у сховищі не частіше, ніж раз на секунду.
 
 //*==============================================================
+// import Player from '@vimeo/player';
+// console.log(Player);
 
-const iframe = document.querySelector('iframe');
-const player = new Vimeo.Player(iframe);
+// const iframe = document.querySelector('iframe');
+// const player = new Player(iframe);
 
-player.on('play', function () {
-  console.log('played the video!');
-});
+// player.on('play', function () {
+//   console.log('played the video!');
+// });
 
-player.getVideoTitle().then(function (title) {
-  console.log('title:', title);
-});
+// player.getVideoTitle().then(function (title) {
+//   console.log('title:', title);
+// });
