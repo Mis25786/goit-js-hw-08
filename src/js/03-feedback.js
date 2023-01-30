@@ -29,36 +29,61 @@
 //todo Для цього додай до проекту і використовуй бібліотеку lodash.throttle.
 
 //*===============================================================
+import throttle from 'lodash.throttle';
 
-// const refs = {
-//   form: document.querySelector('.feedback-form'),
-//   textarea: document.querySelector('.feedback-form textarea'),
-// };
+const STORAGE_KEY = 'feedback-form-state';
 
-// refs.form.addEventListener('submit', onFormSubmit);
-// refs.textarea.addEventListener('input', onTextareaInput);
+const formData = {};
+
+const refs = {
+  form: document.querySelector('.feedback-form'),
+  textarea: document.querySelector('.feedback-form textarea'),
+};
+
+refs.form.addEventListener('submit', onFormSubmit);
+refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
+refs.form.addEventListener('input', onTextInput);
 // console.log(refs.form);
 // console.log(refs.textarea);
 
-const form = document.querySelector('.feedback-form');
-const textarea = document.querySelector('.feedback-form textarea');
+populateTexterea();
 
-form.addEventListener('submit', onFormSubmit);
-console.log(form);
-textarea.addEventListener('input', onTextareaInput);
-console.log(textarea);
+// const form = document.querySelector('.feedback-form');
+// const textarea = document.querySelector('.feedback-form textarea');
 
-function onFormSubmit(e) {
-  const value = e.currentTarget.textContent;
+// form.addEventListener('submit', onFormSubmit);
+// console.log(form);
+// textarea.addEventListener('input', onTextareaInput);
+// console.log(textarea);
 
-  console.log(value);
+function onTextInput(e) {
+  // console.log(e.target.name);
+  // console.log(e.target.value);
+
+  formData[e.target.name] = e.target.value;
+  console.log(formData);
 }
 
 function onTextareaInput(e) {
-  const value = e.currentTarget.textContent;
+  const message = e.target.value;
 
-  console.log(value);
+  localStorage.setItem(STORAGE_KEY, message);
+  console.log(message);
 }
 
-// const a = 5;
-// console.log(a);
+function onFormSubmit(e) {
+  e.preventDefault();
+
+  e.currentTarget.reset();
+  localStorage.removeItem(STORAGE_KEY);
+  console.log(e.currentTarget);
+}
+
+function populateTexterea() {
+  const savedMessage = localStorage.getItem(STORAGE_KEY);
+
+  if (savedMessage) {
+    console.log(savedMessage);
+    refs.textarea.value = savedMessage;
+  }
+}
