@@ -49,6 +49,30 @@ console.log(refs.textarea);
 
 populateTexterea();
 
+function onTextareaInput(e) {
+  const message = e.target.value;
+
+  localStorage.setItem(STORAGE_KEY, message);
+  // console.log(message);
+}
+
+function onFormSubmit(e) {
+  e.preventDefault();
+
+  e.currentTarget.reset();
+  localStorage.removeItem(STORAGE_KEY);
+  // console.log(e.currentTarget);
+}
+
+function populateTexterea() {
+  const savedMessage = localStorage.getItem(STORAGE_KEY);
+
+  if (savedMessage) {
+    refs.textarea.value = savedMessage;
+    // console.log(savedMessage);
+  }
+}
+
 function onTextInput(e) {
   // console.log(e.target.name);
   // console.log(e.target.value);
@@ -73,31 +97,11 @@ function onTextInput(e) {
 
   // localStorage.getItem();
 
+  // e.currentTarget.reset();
+
   // localStorage.removeItem();
-}
 
-function onTextareaInput(e) {
-  const message = e.target.value;
-
-  localStorage.setItem(STORAGE_KEY, message);
-  // console.log(message);
-}
-
-function onFormSubmit(e) {
-  e.preventDefault();
-
-  e.currentTarget.reset();
-  localStorage.removeItem(STORAGE_KEY);
-  // console.log(e.currentTarget);
-}
-
-function populateTexterea() {
-  const savedMessage = localStorage.getItem(STORAGE_KEY);
-
-  if (savedMessage) {
-    refs.textarea.value = savedMessage;
-    // console.log(savedMessage);
-  }
+  // console.dir(e.target.name);
 }
 
 //*=========================================
