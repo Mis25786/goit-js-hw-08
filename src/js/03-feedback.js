@@ -34,6 +34,7 @@ import throttle from 'lodash.throttle';
 const STORAGE_KEY = 'feedback-form-state';
 
 const formData = {};
+// console.log(formData);
 
 const refs = {
   form: document.querySelector('.feedback-form'),
@@ -43,32 +44,43 @@ const refs = {
 refs.form.addEventListener('submit', onFormSubmit);
 refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
 refs.form.addEventListener('input', onTextInput);
-// console.log(refs.form);
-// console.log(refs.textarea);
+console.log(refs.form);
+console.log(refs.textarea);
 
 populateTexterea();
-
-// const form = document.querySelector('.feedback-form');
-// const textarea = document.querySelector('.feedback-form textarea');
-
-// form.addEventListener('submit', onFormSubmit);
-// console.log(form);
-// textarea.addEventListener('input', onTextareaInput);
-// console.log(textarea);
 
 function onTextInput(e) {
   // console.log(e.target.name);
   // console.log(e.target.value);
 
   formData[e.target.name] = e.target.value;
-  console.log(formData);
+  // console.log(formData);
+
+  // const {
+  //   elements: { email, message },
+  // } = e.currentTarget;
+  // console.log(email);
+  // console.log(message);
+
+  // const object = JSON.stringify(formData);
+  // console.log(object);
+
+  // const objectString = JSON.parse(object);
+  // console.log(objectString);
+
+  // localStorage.setItem(object);
+  // console.log(object);
+
+  // localStorage.getItem();
+
+  // localStorage.removeItem();
 }
 
 function onTextareaInput(e) {
   const message = e.target.value;
 
   localStorage.setItem(STORAGE_KEY, message);
-  console.log(message);
+  // console.log(message);
 }
 
 function onFormSubmit(e) {
@@ -76,14 +88,50 @@ function onFormSubmit(e) {
 
   e.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY);
-  console.log(e.currentTarget);
+  // console.log(e.currentTarget);
 }
 
 function populateTexterea() {
   const savedMessage = localStorage.getItem(STORAGE_KEY);
 
   if (savedMessage) {
-    console.log(savedMessage);
     refs.textarea.value = savedMessage;
+    // console.log(savedMessage);
   }
 }
+
+//*=========================================
+// const form = document.querySelector('.login-form');
+// // console.log(form);
+
+// form.addEventListener('submit', onSubmitForm);
+// // console.dir(form);
+
+// function onSubmitForm(event) {
+//   event.preventDefault();
+//   //   console.dir(event.currentTarget);
+
+//   const formEl = event.currentTarget.elements;
+//   //   console.log(formEl);
+
+//   //* задається => typ
+//   const email = formEl.email.value;
+//   //   console.log(email);
+//   const password = formEl.password.value;
+//   //   console.log(password);
+
+//   const formData = {
+//     email,
+//     password,
+//   };
+
+//   if (formEl.email.value === '' || formEl.password.value === '') {
+//     alert('Заповніть будь-ласка всі поля');
+//   } else if (
+//     formEl.email.value === email ||
+//     formEl.password.value === password
+//   ) {
+//     console.log(formData);
+//   }
+//   form.reset();
+// }
