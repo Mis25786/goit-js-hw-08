@@ -26,19 +26,22 @@
 
 //*==============================================================
 
-// import Player from '@vimeo/player';
-// console.log(Player);
+import Player from '@vimeo/player';
+console.log(Player);
 
-// const iframe = document.querySelector('iframe');
-// const player = new Player(iframe);
+const iframe = document.querySelector('iframe');
+const player = new Player(iframe);
 
-// player.on('play', function () {
-//   console.log('played the video!');
-// });
+player.on('timeupdate', function () {
+  console.log('timeupdate');
+});
 
-// player.getVideoTitle().then(function (title) {
-//   console.log('title:', title);
-// });
+player.getVideoTitle().then(function (title) {
+  console.log('title:', title);
+});
 
-const a = 5;
+localStorage.setItem('videoplayer-current-time');
+
+//*=========================================
+const a = 10;
 console.log(a);

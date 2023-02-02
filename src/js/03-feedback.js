@@ -31,85 +31,130 @@
 //*===============================================================
 import throttle from 'lodash.throttle';
 
-const STORAGE_KEY = 'feedback-form-state';
+const LOCAL_KEY = 'feedback-form-state';
+
+const form = document.querySelector('.feedback-form');
+// console.log(form);
+
+form.addEventListener('submit', onFormSubmit);
+form.addEventListener('input', onFormInput, 500);
 
 const formData = {};
 // console.log(formData);
 
-const refs = {
-  form: document.querySelector('.feedback-form'),
-  textarea: document.querySelector('.feedback-form textarea'),
-};
-
-refs.form.addEventListener('submit', onFormSubmit);
-refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
-refs.form.addEventListener('input', onTextInput);
-console.log(refs.form);
-console.log(refs.textarea);
-
-populateTexterea();
-
-function onTextareaInput(e) {
-  const message = e.target.value;
-
-  localStorage.setItem(STORAGE_KEY, message);
-  // console.log(message);
-}
+auditLocalStorage();
 
 function onFormSubmit(e) {
   e.preventDefault();
 
-  e.currentTarget.reset();
-  localStorage.removeItem(STORAGE_KEY);
-  // console.log(e.currentTarget);
+  // const email = e.currentTarget.elements.email.value;
+  //// console.log(email);
+  // const message = e.currentTarget.elements.message.value;
+  // // console.log(message);
+
+  // // const formData = {
+  // //   email,
+  // //   message,
+  // // };
+  // // // console.log(formData);
+
+  // if (email === '' || message === '') {
+  //   alert('Заповніть будь-ласка всі поля');
+  // } else {
+  //   return formData.email === email || formData.message === message;
+  //   // console.log(formData);
+  // }
 }
 
-function populateTexterea() {
-  const savedMessage = localStorage.getItem(STORAGE_KEY);
-
-  if (savedMessage) {
-    refs.textarea.value = savedMessage;
-    // console.log(savedMessage);
-  }
-}
-
-function onTextInput(e) {
-  // console.log(e.target.name);
-  // console.log(e.target.value);
-
+function onFormInput(e) {
   formData[e.target.name] = e.target.value;
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(formData));
   // console.log(formData);
+}
 
-  // const {
-  //   elements: { email, message },
-  // } = e.currentTarget;
-  // console.log(email);
+function auditLocalStorage() {
+  const dataLocal = localStorage.getItem(LOCAL_KEY);
+  // console.log(dataLocal);
+
+  const email = currentTarget.elements.email.value;
+  console.log(email);
+  const message = e.currentTarget.elements.message.value;
   // console.log(message);
 
-  // const object = JSON.stringify(formData);
-  // console.log(object);
+  // if (dataLocal) {
+  // e.currentTarget.elements.email.value = dataLocal.email;
+  // console.log(e.currentTarget.elements.email.value);
+  // e.currentTarget.elements.message.value = dataLocal.message;
+  // }
+  // console.log();
 
-  // const objectString = JSON.parse(object);
-  // console.log(objectString);
-
-  // localStorage.setItem(object);
-  // console.log(object);
-
-  // localStorage.getItem();
-
-  // e.currentTarget.reset();
-
-  // localStorage.removeItem();
-
-  // console.dir(e.target.name);
+  // const dataDisplay = JSON.parse(dataLocal);
+  // console.log(dataDisplay);
 }
+
+//*============== По Репеті ====================
+
+// const STORAGE_KEY = 'feedback-form-state';
+
+// const formData = {};
+// // console.log(formData);
+
+// const refs = {
+//   form: document.querySelector('.feedback-form'),
+//   textarea: document.querySelector('.feedback-form textarea'),
+// };
+
+// refs.form.addEventListener('submit', onFormSubmit);
+// refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
+// refs.form.addEventListener('input', onTextInput);
+// // console.log(refs.form);
+// // console.log(refs.textarea);
+
+// populateTexterea();
+
+// function onTextareaInput(e) {
+//   const message = e.target.value;
+
+//   localStorage.setItem(STORAGE_KEY, message);
+//   // console.log(message);
+// }
+
+// function onFormSubmit(e) {
+//   e.preventDefault();
+
+//   e.currentTarget.reset();
+//   localStorage.removeItem(STORAGE_KEY);
+//   // console.log(e.currentTarget);
+// }
+
+// function populateTexterea() {
+//   const savedMessage = localStorage.getItem(STORAGE_KEY);
+
+//   if (savedMessage) {
+//     refs.textarea.value = savedMessage;
+//     // console.log(savedMessage);
+//   }
+// }
+
+// function onTextInput(e) {
+//   formData[e.target.name] = e.target.value;
+//   // console.log(formData);
+
+//   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+
+//   // const saveFormData = localStorage.getItem(STORAGE_KEY);
+
+//   // const parsedFormData = JSON.parse(saveFormData);
+
+//   // localStorage.removeItem(STORAGE_KEY);
+
+//   // console.log(parsedFormData);
+// }
 
 //*=========================================
 // const form = document.querySelector('.login-form');
-// // console.log(form);
 
 // form.addEventListener('submit', onSubmitForm);
-// // console.dir(form);
 
 // function onSubmitForm(event) {
 //   event.preventDefault();
@@ -120,9 +165,7 @@ function onTextInput(e) {
 
 //   //* задається => typ
 //   const email = formEl.email.value;
-//   //   console.log(email);
 //   const password = formEl.password.value;
-//   //   console.log(password);
 
 //   const formData = {
 //     email,
