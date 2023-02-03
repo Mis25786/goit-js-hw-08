@@ -30,7 +30,7 @@
 
 //*===============================================================
 import throttle from 'lodash.throttle';
-
+//*===============================================================
 const LOCAL_KEY = 'feedback-form-state';
 
 const form = document.querySelector('.feedback-form');
@@ -42,57 +42,33 @@ form.addEventListener('input', onFormInput, 500);
 const formData = {};
 // console.log(formData);
 
-auditLocalStorage();
-
 function onFormSubmit(e) {
   e.preventDefault();
 
-  // const email = e.currentTarget.elements.email.value;
-  //// console.log(email);
-  // const message = e.currentTarget.elements.message.value;
-  // // console.log(message);
+  const dataLocal = localStorage.getItem(LOCAL_KEY);
+  // console.log(dataLocal);
 
-  // // const formData = {
-  // //   email,
-  // //   message,
-  // // };
-  // // // console.log(formData);
+  // console.dir(e.target);
 
-  // if (email === '' || message === '') {
-  //   alert('Заповніть будь-ласка всі поля');
-  // } else {
-  //   return formData.email === email || formData.message === message;
-  //   // console.log(formData);
-  // }
+  const autDataLocalStorage = JSON.parse(dataLocal);
+  console.log(autDataLocalStorage);
+
+  localStorage.removeItem(LOCAL_KEY);
+  e.currentTarget.reset();
 }
 
 function onFormInput(e) {
   formData[e.target.name] = e.target.value;
   localStorage.setItem(LOCAL_KEY, JSON.stringify(formData));
   // console.log(formData);
+
+  // console.dir(e.target.name);
+  // console.dir(e.target.value);
+  const messageLocalStorage = localStorage.getItem(LOCAL_KEY);
+  // console.log(messageLocalStorage);
 }
 
-function auditLocalStorage() {
-  const dataLocal = localStorage.getItem(LOCAL_KEY);
-  // console.log(dataLocal);
-
-  const email = currentTarget.elements.email.value;
-  console.log(email);
-  const message = e.currentTarget.elements.message.value;
-  // console.log(message);
-
-  // if (dataLocal) {
-  // e.currentTarget.elements.email.value = dataLocal.email;
-  // console.log(e.currentTarget.elements.email.value);
-  // e.currentTarget.elements.message.value = dataLocal.message;
-  // }
-  // console.log();
-
-  // const dataDisplay = JSON.parse(dataLocal);
-  // console.log(dataDisplay);
-}
-
-//*============== По Репеті ====================
+//!============== По Репеті ====================
 
 // const STORAGE_KEY = 'feedback-form-state';
 
@@ -122,9 +98,15 @@ function auditLocalStorage() {
 // function onFormSubmit(e) {
 //   e.preventDefault();
 
+//   const saveFormData = localStorage.getItem(STORAGE_KEY);
+
+//   const parsedFormData = JSON.parse(saveFormData);
+
 //   e.currentTarget.reset();
 //   localStorage.removeItem(STORAGE_KEY);
 //   // console.log(e.currentTarget);
+
+//   console.log(parsedFormData);
 // }
 
 // function populateTexterea() {
@@ -139,19 +121,10 @@ function auditLocalStorage() {
 // function onTextInput(e) {
 //   formData[e.target.name] = e.target.value;
 //   // console.log(formData);
-
 //   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-
-//   // const saveFormData = localStorage.getItem(STORAGE_KEY);
-
-//   // const parsedFormData = JSON.parse(saveFormData);
-
-//   // localStorage.removeItem(STORAGE_KEY);
-
-//   // console.log(parsedFormData);
 // }
 
-//*=========================================
+//!================== 6/8 =======================
 // const form = document.querySelector('.login-form');
 
 // form.addEventListener('submit', onSubmitForm);
@@ -182,3 +155,7 @@ function auditLocalStorage() {
 //   }
 //   form.reset();
 // }
+//*================================
+
+const a = 15;
+console.log(a);
