@@ -25,23 +25,105 @@
 //todo 7) Додай до проекту бібліотеку lodash.throttle і зроби так, щоб час відтворення оновлювався у сховищі не частіше, ніж раз на секунду.
 
 //*==============================================================
-
+//* ініціалізуємо плеєр та додаємо метод throttle
 import Player from '@vimeo/player';
-console.log(Player);
+import throttle from 'lodash.throttle';
 
+// //* створюємо ключ для локального сховища
+const LOCAL_KEY = 'videoplayer-current-time';
+
+// //* отримуємо доступ до плеєра та створюємо нового гравеця
 const iframe = document.querySelector('iframe');
+// console.log(iframe);
 const player = new Player(iframe);
+// console.log(player);
 
-player.on('timeupdate', function () {
-  console.log('timeupdate');
+//* провіряємо сховище на наявність попереднього перегляду
+pageReload();
+
+//* відслідковуємо час та записуємо в сховище
+player.on('timeupdate', function (time) {
+  // console.log(time);
+  throttle(localStorage.setItem(LOCAL_KEY, time.seconds), 1000);
 });
 
-player.getVideoTitle().then(function (title) {
-  console.log('title:', title);
-});
+//* ========= так чомусь не працює чому? ============
+// player.on('timeupdate', onPlay);
 
-localStorage.setItem('videoplayer-current-time');
+// let onPlay = function (time) {
+//   console.log(time);
+//   throttle(localStorage.setItem(LOCAL_KEY, time.seconds), 1000);
+// };
+//* =============================================
 
-//*=========================================
-const a = 10;
-console.log(a);
+function pageReload() {
+  const timeLocalStorage = localStorage.getItem(LOCAL_KEY);
+
+  if (timeLocalStorage) {
+    player.setCurrentTime(timeLocalStorage);
+  }
+}
+
+//?============================ данні ==========================================
+//* Попередній гравець
+//* Уже є гравець на сторінці? Передайте елемент у конструктор Vimeo.Player, і ви готові до роботи.
+
+// const iframe = document.querySelector('iframe');
+// const player = new Vimeo.Player(iframe);
+
+// player.on('play', function () {
+//   console.log('played the video!');
+// });
+
+// player.getVideoTitle().then(function (title) {
+//   console.log('title:', title);
+// });
+// //*===============================
+//* on(подія: рядок, зворотний виклик: функція): void
+
+//* Додайте обробник події для вказаної події.
+//* Викличе зворотний виклик з одним параметром, даними, який містить дані для цієї події.
+//* Подробиці дивіться нижче.
+
+// const onPlay = function (data) {
+//   // data is an object containing properties specific to that event
+// };
+
+// player.on('play', onPlay);
+// //*===============================
+//* setCurrentTime(seconds: number): Promise<number, (RangeError|Error)>
+
+//* Встановіть поточну позицію відтворення в секундах.
+//* Після початку відтворення, якщо програвач було призупинено, він залишатиметься призупиненим.
+//* Подібним чином, якщо програвач відтворювався, він відновить відтворення після буферизації відео.
+//* Якщо встановити поточний час перед початком відтворення, відтворення почнеться.
+//* Ви можете вказати точний час, і гравець намагатиметься знайти якомога ближче до цього часу.
+//* Точний час буде значенням виконаної обіцянки.
+
+// player
+//   .setCurrentTime(30.456)
+//   .then(function (seconds) {
+//     // секунд = фактичний час, який гравець прагнув
+//   })
+//   .catch(function (error) {
+//     switch (error.name) {
+//       case 'RangeError':
+//         // час був меншим за 0 або більшим за тривалість відео
+//         break;
+
+//       default:
+//         // сталася інша помилка
+//         break;
+//     }
+//   });
+//*================================
+//* Запускається як поточний час оновлення відео.
+//* Зазвичай він запускається кожні 250 мс, але може відрізнятися залежно від браузера.
+
+// timeupdate;
+// {
+//   duration: 61.857;
+//   percent: 0.049;
+//   seconds: 3.034;
+// }
+//?================================================================================

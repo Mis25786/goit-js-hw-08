@@ -29,59 +29,111 @@
 //todo Для цього додай до проекту і використовуй бібліотеку lodash.throttle.
 
 //*===============================================================
+//* додаємо з бібліотеки lodash метод throttle
 import throttle from 'lodash.throttle';
 //*===============================================================
+//* створюємо ключ для локального сховища
 const LOCAL_KEY = 'feedback-form-state';
+//*==============================================================
 
+//* доступ до форми/інпута/месенджа
 const form = document.querySelector('.feedback-form');
-// console.log(form);
+const email = document.querySelector('input');
+const message = document.querySelector('textarea');
 
+//* слухачі кнопки та інпутів
 form.addEventListener('submit', onFormSubmit);
-form.addEventListener('input', onFormInput, 500);
+form.addEventListener('input', throttle(onFormInput, 500)); // ставимо час для обновлення рядків
 
+//* створюємо об'єкт
 const formData = {};
-// console.log(formData);
 
+auditLocalStorage();
+
+//* виводимо значення з інпутів та записуємо в локальне сховище
+function onFormInput(e) {
+  formData[e.target.name] = e.target.value;
+
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(formData));
+}
+
+//* блокуємо обновлення сторінки та ресетуємо інпути + локальне сховище
 function onFormSubmit(e) {
   e.preventDefault();
 
-  const dataLocal = localStorage.getItem(LOCAL_KEY);
-  // console.log(dataLocal);
-
-  // console.dir(e.target);
-
-  const autDataLocalStorage = JSON.parse(dataLocal);
-  console.log(autDataLocalStorage);
-
   localStorage.removeItem(LOCAL_KEY);
   e.currentTarget.reset();
+
+  console.log(formData);
 }
 
-function onFormInput(e) {
-  formData[e.target.name] = e.target.value;
-  localStorage.setItem(LOCAL_KEY, JSON.stringify(formData));
-  // console.log(formData);
+//* провіряємо після перезагрузки вікна чи є щось в локальному сховищі
+function auditLocalStorage() {
+  const dataLocalStorage = JSON.parse(localStorage.getItem(LOCAL_KEY));
 
-  // console.dir(e.target.name);
-  // console.dir(e.target.value);
-  const messageLocalStorage = localStorage.getItem(LOCAL_KEY);
-  // console.log(messageLocalStorage);
+  if (dataLocalStorage) {
+    email.value = dataLocalStorage.email || '';
+    message.value = dataLocalStorage.message || '';
+  }
 }
 
-//!============== По Репеті ====================
+//!=================== варіант 2 робочий ==============================
+//* доступ до форми
+// const form = document.querySelector('.feedback-form');
+// // console.log(form);
 
-// const STORAGE_KEY = 'feedback-form-state';
+//* слухачі кнопки та інпутів
+// form.addEventListener('submit', onFormSubmit);
+// form.addEventListener('input', throttle(onFormInput, 500)); // ставимо час для обновлення рядків
 
+//* провіряємо після перезагрузки вікна чи є щось в локальному сховищі
+// const dataFromLocalStorage = JSON.parse(localStorage.getItem(LOCAL_KEY));
+// form.elements.email.value = dataFromLocalStorage?.email || '';
+// form.elements.message.value = dataFromLocalStorage?.message || '';
+
+//* створюємо об'єкт
 // const formData = {};
 // // console.log(formData);
 
+//* блокуємо обновлення сторінки та ресетуємо інпути + локальне сховище
+// function onFormSubmit(e) {
+//   e.preventDefault();
+
+//   const dataLocal = localStorage.getItem(LOCAL_KEY);
+//   // console.log(dataLocal);
+
+//   const autDataLocalStorage = JSON.parse(dataLocal);
+
+//   localStorage.removeItem(LOCAL_KEY);
+//   e.currentTarget.reset();
+//   console.log(autDataLocalStorage);
+// }
+
+//* виводимо значення з інпутів та записуємо в локальне сховище
+// function onFormInput(e) {
+//   formData[e.target.name] = e.target.value;
+
+//   const dataFromLocalStorage = JSON.parse(localStorage.getItem(LOCAL_KEY));
+//   localStorage.setItem(
+//     LOCAL_KEY,
+//     JSON.stringify({ ...dataFromLocalStorage, [e.target.name]: e.target.value })
+//   );
+// }
+
+//!======== варіант 3 робочий ====== По Репеті ====================
+// // * створюємо об'єкт
+// const formData = {};
+// // console.log(formData);
+
+// // * доступ до форми та інпутів
 // const refs = {
 //   form: document.querySelector('.feedback-form'),
 //   textarea: document.querySelector('.feedback-form textarea'),
 // };
 
+// // * слухачі кнопки та інпутів
 // refs.form.addEventListener('submit', onFormSubmit);
-// refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
+// refs.textarea.addEventListener('input', throttle(onTextareaInput, 500)); // ставимо час для обновлення рядків
 // refs.form.addEventListener('input', onTextInput);
 // // console.log(refs.form);
 // // console.log(refs.textarea);
@@ -95,6 +147,7 @@ function onFormInput(e) {
 //   // console.log(message);
 // }
 
+// // * блокуємо обновлення сторінки та ресетуємо інпути + локальне сховище
 // function onFormSubmit(e) {
 //   e.preventDefault();
 
@@ -109,53 +162,18 @@ function onFormInput(e) {
 //   console.log(parsedFormData);
 // }
 
+// // * провіряємо після перезагрузки вікна чи є щось в локальному сховищі
 // function populateTexterea() {
 //   const savedMessage = localStorage.getItem(STORAGE_KEY);
-
 //   if (savedMessage) {
 //     refs.textarea.value = savedMessage;
-//     // console.log(savedMessage);
+//     console.log(savedMessage);
 //   }
 // }
 
+// // * виводимо значення з інпутів та записуємо в локальне сховище
 // function onTextInput(e) {
 //   formData[e.target.name] = e.target.value;
 //   // console.log(formData);
 //   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 // }
-
-//!================== 6/8 =======================
-// const form = document.querySelector('.login-form');
-
-// form.addEventListener('submit', onSubmitForm);
-
-// function onSubmitForm(event) {
-//   event.preventDefault();
-//   //   console.dir(event.currentTarget);
-
-//   const formEl = event.currentTarget.elements;
-//   //   console.log(formEl);
-
-//   //* задається => typ
-//   const email = formEl.email.value;
-//   const password = formEl.password.value;
-
-//   const formData = {
-//     email,
-//     password,
-//   };
-
-//   if (formEl.email.value === '' || formEl.password.value === '') {
-//     alert('Заповніть будь-ласка всі поля');
-//   } else if (
-//     formEl.email.value === email ||
-//     formEl.password.value === password
-//   ) {
-//     console.log(formData);
-//   }
-//   form.reset();
-// }
-//*================================
-
-const a = 15;
-console.log(a);
