@@ -42,10 +42,12 @@ const player = new Player(iframe);
 pageReload();
 
 //* відслідковуємо час та записуємо в сховище
-player.on('timeupdate', function (time) {
-  // console.log(time);
-  throttle(localStorage.setItem(LOCAL_KEY, time.seconds), 1000);
-});
+player.on(
+  'timeupdate',
+  throttle(function (time) {
+    localStorage.setItem(LOCAL_KEY, time.seconds), 1000;
+  })
+);
 
 //* ========= так чомусь не працює чому? ============
 // player.on('timeupdate', onPlay);
