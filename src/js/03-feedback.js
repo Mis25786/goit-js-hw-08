@@ -35,24 +35,36 @@ import throttle from 'lodash.throttle';
 //* створюємо ключ для локального сховища
 const LOCAL_KEY = 'feedback-form-state';
 // //*==============================================================
-
+//! =============== погратися ще ==================
 // //* доступ до форми/інпута/месенджа
 // const form = document.querySelector('.feedback-form');
-// const email = document.querySelector('input');
-// const message = document.querySelector('textarea');
+// const input = document.querySelector('input');
+// const textarea = document.querySelector('textarea');
 
 // //* слухачі кнопки та інпутів
 // form.addEventListener('submit', onFormSubmit);
 // form.addEventListener('input', throttle(onFormInput, 500)); // ставимо час для обновлення рядків
 
 // //* створюємо об'єкт
-// const formData = {};
+// // const formData = {};
 
 // auditLocalStorage();
 
 // //* виводимо значення з інпутів та записуємо в локальне сховище
 // function onFormInput(e) {
-//   formData[e.target.name] = e.target.value;
+//   // formData[e.target.name] = e.target.value;
+//   const formEl = e.currentTarget.elements;
+//   // console.dir(formEl);
+//   const email = formEl.email.value;
+//   // console.log(email);
+//   const message = formEl.message.value;
+//   // console.log(message);
+
+//   const formData = {
+//     email,
+//     message,
+//   };
+//   // console.log(formData);
 
 //   localStorage.setItem(LOCAL_KEY, JSON.stringify(formData));
 // }
@@ -70,6 +82,7 @@ const LOCAL_KEY = 'feedback-form-state';
 // //* провіряємо після перезагрузки вікна чи є щось в локальному сховищі
 // function auditLocalStorage() {
 //   const dataLocalStorage = JSON.parse(localStorage.getItem(LOCAL_KEY));
+//   console.dir(dataLocalStorage.email);
 
 //   if (dataLocalStorage) {
 //     email.value = dataLocalStorage.email || '';
