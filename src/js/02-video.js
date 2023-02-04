@@ -45,8 +45,8 @@ pageReload();
 player.on(
   'timeupdate',
   throttle(function (time) {
-    localStorage.setItem(LOCAL_KEY, time.seconds), 1000;
-  })
+    localStorage.setItem(LOCAL_KEY, time.seconds);
+  }, 1000)
 );
 
 //* ========= так чомусь не працює чому? ============
